@@ -91,19 +91,25 @@ export function SyncButton({ onSync, isSyncing, cooldownRemaining }: SyncButtonP
           </defs>
         </svg>
 
-        {/* 中心内容 */}
         <div className="z-10 flex flex-col items-center justify-center text-center">
           <AnimatePresence mode="wait" initial={false}>
             {isSyncing ? (
               <motion.div
                 key="syncing"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col items-center"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="flex flex-col items-center gap-4"
               >
-                <div className="w-10 h-10 border-[1px] border-white/10 border-t-premium-gold rounded-full animate-spin mb-4" />
-                <span className="text-[10px] tracking-[0.3em] text-premium-gold font-light">{t.syncing}</span>
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-full border-2 border-premium-gold/20 border-t-premium-gold animate-spin"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full border border-premium-gold/30 border-b-premium-gold animate-spin-reverse"></div>
+                  </div>
+                </div>
+                <span className="text-xs font-medium text-premium-gold tracking-[0.2em] animate-pulse">
+                  {t.syncing}
+                </span>
               </motion.div>
             ) : cooldownRemaining > 0 ? (
               <motion.div
@@ -113,11 +119,12 @@ export function SyncButton({ onSync, isSyncing, cooldownRemaining }: SyncButtonP
                 exit={{ opacity: 0, y: -10 }}
                 className="flex flex-col items-center"
               >
-                <div className="text-3xl font-light tracking-widest text-white/60 mb-2" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  {new Date(cooldownRemaining * 1000).toISOString().substr(11, 8)}
-                </div>
-                <div className="h-[1px] w-8 bg-white/10 mb-2"></div>
-                <div className="text-[9px] text-white/30 uppercase tracking-[0.4em]">{t.recharging}</div>
+                <span className="text-4xl font-light text-white/90 tracking-tight mb-2 font-mono">
+                  {Math.floor(cooldownRemaining / 3600).toString().padStart(2, '0')}:
+                  {Math.floor((cooldownRemaining % 3600) / 60).toString().padStart(2, '0')}:
+                  {(cooldownRemaining % 60).toString().padStart(2, '0')}
+                </span>
+                <span className="text-[10px] text-white/40 tracking-[0.3em] uppercase">{t.cooldown}</span>
               </motion.div>
             ) : (
               <motion.div
@@ -127,11 +134,13 @@ export function SyncButton({ onSync, isSyncing, cooldownRemaining }: SyncButtonP
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="flex flex-col items-center"
               >
-                <div className="text-sm font-light tracking-[0.4em] text-premium-gold mb-2 uppercase">
-                  {t.initiate}
+                <div className="w-20 h-20 mb-4 rounded-full bg-gradient-to-br from-premium-gold/20 to-transparent flex items-center justify-center border border-premium-gold/30 shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+                  <svg className="w-8 h-8 text-premium-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
                 </div>
-                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent via-premium-gold/50 to-transparent mb-2"></div>
-                <div className="text-[9px] text-white/40 tracking-[0.3em] uppercase">{t.exploration}</div>
+                <span className="text-2xl font-semibold text-white tracking-widest">{t.interact}</span>
+                <span className="text-[10px] text-premium-gold/70 tracking-[0.2em] mt-2 uppercase">{t.ready}</span>
               </motion.div>
             )}
           </AnimatePresence>

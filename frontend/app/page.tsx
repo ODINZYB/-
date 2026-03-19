@@ -252,132 +252,161 @@ function HomeContent() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-8 bg-deep-space selection:bg-mars-red/30">
+    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-4 md:p-8 bg-[#0a0a0a] selection:bg-premium-gold/30">
       
-      {/* Dynamic Background */}
+      {/* Premium Background Effects */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[10%] left-[20%] w-[40vw] h-[40vw] bg-mars-red/5 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: '10s' }} />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-neon-green/5 rounded-full blur-[180px] opacity-60" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)]"></div>
+        {/* Soft Gold/Orange glow */}
+        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-premium-gold/5 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: '15s' }} />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-[#E5C07B]/5 rounded-full blur-[150px]" />
+        {/* Modern grid texture */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
+        {/* Vignette effect */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0a0a_100%)]"></div>
       </div>
 
-      {/* Top Bar with Wallet Connect & Language Toggle */}
-      <div className="absolute top-8 right-12 z-20 flex items-center gap-4">
-        {/* Language Toggle */}
-        <button
-          onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
-          className="glass-button w-10 h-10 rounded-full flex items-center justify-center text-xs font-mono text-white/60 hover:text-white transition-all duration-300"
-          title="Toggle Language"
-        >
-          <Globe size={16} className="mb-0.5" />
-          <span className="absolute -bottom-4 text-[8px] tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-            {language === 'en' ? 'ZH' : 'EN'}
-          </span>
-        </button>
-
-        {/* Wallet Connect */}
-        <button
-          onClick={connectWallet}
-          disabled={isConnecting}
-          className="glass-button px-6 py-2.5 rounded-full flex items-center gap-3 text-xs font-mono tracking-[0.2em] text-white/80 hover:text-mars-red transition-all duration-500"
-        >
-          <Wallet size={16} className={isConnecting ? "animate-pulse text-mars-red" : "text-mars-red/80"} />
-          <span className="mt-[2px]">{isConnecting ? t.connecting : walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}` : t.connectWallet}</span>
-        </button>
-      </div>
-
-      <main className="relative z-10 w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-12">
-        
-        {/* Left Column: Sync & Balance */}
-        <div className="flex flex-col items-center lg:items-start space-y-12">
-          
-          {/* Header */}
-          <div className="text-center lg:text-left space-y-4">
-            <h1 className="text-5xl lg:text-7xl font-light tracking-[-0.05em] text-white/90">
-              PEACE <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-mars-red via-premium-gold to-mars-red bg-[length:200%_auto] animate-[gradient_8s_linear_infinite]">PROTOCOL</span>
-            </h1>
-            <p className="text-white/40 font-mono text-xs tracking-[0.3em] uppercase">
-              {t.subtitle}
-            </p>
-            {/* Display Referrer if bounded */}
-            {referrer !== "0x0000000000000000000000000000000000000000" ? (
-              <p className="text-[10px] text-neon-green/60 font-mono mt-4 bg-neon-green/5 inline-block px-4 py-1.5 rounded-full border border-neon-green/10 shadow-[inset_0_0_10px_rgba(0,240,255,0.05)]">
-                {t.referredBy} <span className="text-neon-green/80">{referrer.substring(0, 6)}...{referrer.substring(38)}</span>
-              </p>
-            ) : null}
+      {/* Modern Top Navigation */}
+      <nav className="absolute top-0 w-full z-30 px-6 py-4 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-md">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-premium-gold to-[#8B6914] flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+            <span className="font-bold text-black text-lg">P</span>
           </div>
-
-          {/* Sync Button Container */}
-          <div className="relative py-8">
-            <SyncButton 
-              onSync={handleSync} 
-              isSyncing={isSyncing} 
-              cooldownRemaining={cooldownRemaining} 
-            />
-            
-            {/* Connection Status & TX Status */}
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 whitespace-nowrap">
-              <div className="flex items-center gap-2 bg-deep-space/50 px-3 py-1 rounded-full border border-white/5 backdrop-blur-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse shadow-[0_0_8px_#00F0FF]" />
-                <span className="text-[9px] font-mono text-white/50 tracking-[0.2em]">
-                  {t.systemOnline.split(' ')[0]} <span className="text-neon-green/80">{t.systemOnline.split(' ')[1] || t.systemOnline.replace(t.systemOnline.split(' ')[0], '')}</span>
-                </span>
-              </div>
-              {txStatus ? (
-                <span className="text-[10px] font-mono text-mars-red tracking-[0.1em] mt-1 animate-pulse">
-                  {txStatus}
-                </span>
-              ) : null}
-            </div>
-          </div>
-
-          {/* Balance Display */}
-          <div className="glass-panel p-8 flex flex-col items-center lg:items-start min-w-[320px] relative group border-t-0 border-l-0 border-r-0 border-b border-mars-red/20 rounded-none bg-gradient-to-b from-white/[0.02] to-transparent">
-            <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.3em] mb-3 flex items-center gap-2">
-              <div className="w-1 h-1 bg-mars-red rounded-full" />
-              {t.totalAssets}
-            </span>
-            <div className="flex items-baseline gap-3 mb-6">
-              <CountUp value={balance} />
-              <span className="text-sm font-light tracking-widest text-mars-red/80">PEACE</span>
-            </div>
-            
-            {/* Referral Link Copy Button */}
-            <div className="w-full pt-5 border-t border-white/5 flex items-center justify-between">
-              <span className="text-[10px] text-white/30 font-mono tracking-widest">{t.referralLink}</span>
-              <button 
-                onClick={copyReferralLink}
-                className="flex items-center gap-2 text-[10px] tracking-widest bg-white/5 hover:bg-white/10 px-4 py-2 rounded transition-all duration-300 text-white/60 hover:text-white"
-              >
-                {isCopied ? <Check size={12} className="text-neon-green" /> : <Copy size={12} />}
-                {isCopied ? t.copied : t.copy}
-              </button>
-            </div>
-          </div>
-
+          <span className="font-bold text-white/90 tracking-widest hidden md:block">PEACE</span>
         </div>
 
-        {/* Right Column: Dashboard & Leaderboard */}
-        <div className="flex flex-col gap-8 w-full max-w-md mx-auto lg:mx-0">
+        <div className="flex items-center gap-3">
+          {/* Language Toggle */}
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
+            className="h-10 px-3 rounded-xl flex items-center justify-center text-xs font-medium text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 transition-all"
+          >
+            <Globe size={14} className="mr-2 opacity-70" />
+            {language === 'en' ? 'EN' : '中'}
+          </button>
+
+          {/* Premium Wallet Connect */}
+          <button
+            onClick={connectWallet}
+            disabled={isConnecting}
+            className="h-10 px-5 rounded-xl flex items-center gap-2 text-sm font-medium transition-all duration-300 relative overflow-hidden group"
+            style={{
+              background: walletAddress ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.05) 100%)',
+              border: '1px solid rgba(212,175,55,0.2)'
+            }}
+          >
+            <div className="absolute inset-0 bg-premium-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Wallet size={16} className={walletAddress ? "text-premium-gold" : "text-premium-gold/80"} />
+            <span className="text-white/90 relative z-10">
+              {isConnecting ? t.connecting : walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}` : t.connectWallet}
+            </span>
+          </button>
+        </div>
+      </nav>
+
+      <main className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center mt-24 mb-16 space-y-12">
+        
+        {/* Hero Section */}
+        <div className="text-center space-y-6 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-sm">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_#4ade80]" />
+            <span className="text-xs font-medium text-white/70 tracking-wide">Mainnet Active</span>
+          </div>
           
-          {/* Quota Dashboard */}
-          <QuotaDashboard totalSlots={20} activeSlots={14} />
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white">
+            Claim Your <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-gold via-[#FFF2CD] to-premium-gold bg-[length:200%_auto] animate-[gradient_8s_linear_infinite]">
+              Peace Protocol
+            </span>
+            <br/> Airdrop
+          </h1>
+          
+          <p className="text-base md:text-lg text-white/50 font-light max-w-xl mx-auto leading-relaxed">
+            {t.subtitle} Interact with the contract to verify your address and secure your allocation.
+          </p>
 
-          {/* Leaderboard */}
-          <Leaderboard levels={levels} onClaim={handleClaim} />
+          {referrer !== "0x0000000000000000000000000000000000000000" && (
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-premium-gold/5 border border-premium-gold/10">
+              <span className="text-xs text-white/40">{t.referredBy}</span>
+              <span className="text-xs font-mono text-premium-gold">{referrer.substring(0, 6)}...{referrer.substring(38)}</span>
+            </div>
+          )}
+        </div>
 
+        {/* Central Interaction Card (Premium UI) */}
+        <div className="w-full max-w-md relative">
+          {/* Glowing border effect behind the card */}
+          <div className="absolute -inset-0.5 bg-gradient-to-b from-premium-gold/30 to-transparent rounded-[2rem] blur-sm opacity-50" />
+          
+          <div className="relative bg-[#111] border border-white/10 rounded-[2rem] p-8 shadow-2xl backdrop-blur-xl">
+            
+            {/* Balance Section */}
+            <div className="flex flex-col items-center mb-8 pb-8 border-b border-white/5">
+              <span className="text-sm font-medium text-white/40 mb-2 uppercase tracking-widest">{t.totalAssets}</span>
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-bold text-white tracking-tight"><CountUp value={balance} /></span>
+                <span className="text-lg text-premium-gold font-medium">PEACE</span>
+              </div>
+            </div>
+
+            {/* Sync Action Area */}
+            <div className="flex flex-col items-center gap-6">
+              <div className="relative">
+                <SyncButton 
+                  onSync={handleSync} 
+                  isSyncing={isSyncing} 
+                  cooldownRemaining={cooldownRemaining} 
+                />
+              </div>
+
+              {/* Status Message */}
+              <div className="h-6 flex items-center justify-center">
+                {txStatus && (
+                  <span className={`text-xs font-medium px-3 py-1 rounded-lg ${
+                    txStatus.includes("Failed") || txStatus.includes("失败") || txStatus.includes("Rejected") || txStatus.includes("拒绝")
+                      ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                      : "bg-premium-gold/10 text-premium-gold border border-premium-gold/20"
+                  }`}>
+                    {txStatus}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Referral Link */}
+            <div className="mt-8 pt-6 border-t border-white/5">
+              <div className="flex items-center justify-between bg-black/40 rounded-xl p-1 pl-4 border border-white/5">
+                <span className="text-xs text-white/40 font-mono truncate mr-4">
+                  {walletAddress ? `...?ref=${walletAddress.substring(0,6)}...` : t.referralLink}
+                </span>
+                <button 
+                  onClick={copyReferralLink}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+                >
+                  {isCopied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Dashboard Grid - Two columns on desktop */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <div className="bg-[#111]/80 border border-white/5 rounded-2xl p-6 backdrop-blur-md">
+            <QuotaDashboard totalSlots={20} activeSlots={14} />
+          </div>
+          <div className="bg-[#111]/80 border border-white/5 rounded-2xl p-6 backdrop-blur-md">
+            <Leaderboard levels={levels} onClaim={handleClaim} />
+          </div>
         </div>
 
       </main>
 
-      <footer className="absolute bottom-6 text-center w-full z-10 flex justify-center items-center gap-4">
-        <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-white/10" />
-        <p className="text-[9px] text-white/20 font-mono tracking-[0.4em] uppercase">
+      {/* Footer */}
+      <footer className="relative z-10 text-center pb-6 opacity-40 hover:opacity-100 transition-opacity">
+        <p className="text-xs font-medium text-white tracking-widest uppercase">
           {t.footer}
         </p>
-        <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-white/10" />
       </footer>
     </div>
   );
