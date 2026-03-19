@@ -25,8 +25,8 @@ export function Leaderboard({ levels, onClaim }: LeaderboardProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-lg font-semibold text-white">Reward Milestones</h3>
-        <span className="text-sm font-medium text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-lg">
+        <h3 className="text-lg font-semibold text-slate-800">Reward Milestones</h3>
+        <span className="text-sm font-medium text-purple-600 bg-purple-50 px-2.5 py-1 rounded-lg">
           Unlock USDT
         </span>
       </div>
@@ -37,24 +37,24 @@ export function Leaderboard({ levels, onClaim }: LeaderboardProps) {
             key={level.id}
             className={`p-4 rounded-xl border transition-all ${
               level.isClaimed 
-                ? "bg-slate-800/30 border-slate-800" 
+                ? "bg-slate-50 border-slate-100" 
                 : level.isUnlocked 
-                  ? "bg-indigo-500/5 border-indigo-500/30 hover:border-indigo-500/60" 
-                  : "bg-slate-800/50 border-slate-800"
+                  ? "bg-blue-50/50 border-blue-200 hover:border-blue-300" 
+                  : "bg-white border-slate-100"
             }`}
           >
             <div className="flex justify-between items-center mb-3">
               <div>
-                <span className="text-sm font-medium text-white block">Level {level.id}</span>
-                <span className="text-xs text-slate-400">{level.threshold} Interactions</span>
+                <span className="text-sm font-medium text-slate-800 block">Level {level.id}</span>
+                <span className="text-xs text-slate-500">{level.threshold} Interactions</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className={`font-bold ${level.isUnlocked && !level.isClaimed ? 'text-indigo-400' : 'text-slate-500'}`}>
+                <span className={`font-bold ${level.isUnlocked && !level.isClaimed ? 'text-blue-600' : 'text-slate-400'}`}>
                   {level.reward}
                 </span>
                 
                 {level.isClaimed ? (
-                  <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-500 text-xs font-semibold">
+                  <span className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-400 text-xs font-semibold">
                     Claimed
                   </span>
                 ) : (
@@ -63,8 +63,8 @@ export function Leaderboard({ levels, onClaim }: LeaderboardProps) {
                     disabled={!level.isUnlocked}
                     className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                       level.isUnlocked 
-                        ? "bg-indigo-600 hover:bg-indigo-500 text-white" 
-                        : "bg-slate-800 text-slate-500 cursor-not-allowed"
+                        ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                        : "bg-slate-100 text-slate-400 cursor-not-allowed"
                     }`}
                   >
                     {t.claimReward || "Claim"}
@@ -75,9 +75,9 @@ export function Leaderboard({ levels, onClaim }: LeaderboardProps) {
 
             {/* Progress bar for locked levels */}
             {!level.isUnlocked && (
-              <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-2">
+              <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mt-2">
                 <div 
-                  className="h-full bg-slate-600 transition-all duration-500"
+                  className="h-full bg-slate-300 transition-all duration-500"
                   style={{ width: `${level.currentProgress}%` }}
                 />
               </div>
