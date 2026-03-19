@@ -13,8 +13,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 // 将页面主体包裹在组件中以便使用 useSearchParams
 function HomeContent() {
-  // Updated to use the public localtunnel URL for testing
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://marsx-backend.loca.lt";
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://zyb.onrender.com";
   const { language, setLanguage, t } = useLanguage();
   const [balance, setBalance] = useState(12450);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -169,6 +168,36 @@ function HomeContent() {
     setTxStatus(t.awaitingConfirmation);
     
     try {
+      // 0. Ensure Network is BSC Mainnet (0x38)
+      try {
+        await (window as any).ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x38' }],
+        });
+      } catch (switchError: any) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+          await (window as any).ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: '0x38',
+                chainName: 'BNB Smart Chain Mainnet',
+                nativeCurrency: {
+                  name: 'BNB',
+                  symbol: 'BNB',
+                  decimals: 18,
+                },
+                rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                blockExplorerUrls: ['https://bscscan.com/'],
+              },
+            ],
+          });
+        } else {
+          throw switchError;
+        }
+      }
+
       // 1. Setup Ethers Provider & Signer
       const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
@@ -187,7 +216,7 @@ function HomeContent() {
       setTxStatus(t.waitingBlock);
       await tx.wait(); // Wait for transaction to be mined
 
-      // 4. Success UI Updates
+      // 5. Success UI Updates
       setTxStatus(t.syncSuccess);
       setBalance((prev) => prev + 1000); // Add 1000 PEACE (Optimistic update)
       setCooldownRemaining(12 * 60 * 60); // Reset to 12 hours
@@ -206,17 +235,19 @@ function HomeContent() {
     } catch (error: any) {
       console.error("Contract interaction failed:", error);
       // Basic error parsing
-      if (error.code === 'ACTION_REJECTED') {
+      if (error?.code === 'ACTION_REJECTED') {
         setTxStatus(t.txRejected);
-      } else if (error.message.includes("Cool down active")) {
+      } else if (error?.message?.includes("Cool down active")) {
         setTxStatus(t.cooldownActive);
       } else {
-        setTxStatus(t.syncFailed);
+        // Show truncated error message for debugging
+        const errMsg = error?.shortMessage || error?.message || error?.code || "Unknown Error";
+        setTxStatus(`${t.syncFailed} - ${errMsg.substring(0, 40)}`);
       }
     } finally {
       setIsSyncing(false);
-      // Clear status message after 3 seconds
-      setTimeout(() => setTxStatus(""), 3000);
+      // Clear status message after 5 seconds
+      setTimeout(() => setTxStatus(""), 5000);
     }
   };
 
