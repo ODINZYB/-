@@ -311,7 +311,7 @@ function HomeContent() {
               <span className="text-sm font-medium text-slate-500">Your Balance</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-3xl md:text-4xl font-semibold text-slate-800"><CountUp value={balance} /></span>
+              <span className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-amber-500 drop-shadow-sm"><CountUp value={balance} /></span>
               <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-blue-100 shadow-sm">
                 <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
                   <span className="text-white text-[10px] font-bold">P</span>
