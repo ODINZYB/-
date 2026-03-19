@@ -252,162 +252,152 @@ function HomeContent() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-4 md:p-8 bg-[#0a0a0a] selection:bg-premium-gold/30">
-      
-      {/* Premium Background Effects */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Soft Gold/Orange glow */}
-        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-premium-gold/5 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: '15s' }} />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-[#E5C07B]/5 rounded-full blur-[150px]" />
-        {/* Modern grid texture */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
-        {/* Vignette effect */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0a0a0a_100%)]"></div>
+    <div className="min-h-screen bg-[#0F172A] text-slate-200 font-sans selection:bg-indigo-500/30">
+      {/* Subtle modern background gradient */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-indigo-600/10 blur-[120px] rounded-full"></div>
       </div>
 
-      {/* Modern Top Navigation */}
-      <nav className="absolute top-0 w-full z-30 px-6 py-4 flex items-center justify-between border-b border-white/5 bg-black/20 backdrop-blur-md">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-premium-gold to-[#8B6914] flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-            <span className="font-bold text-black text-lg">P</span>
-          </div>
-          <span className="font-bold text-white/90 tracking-widest hidden md:block">PEACE</span>
-        </div>
-
+      {/* Header / Navbar */}
+      <header className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#0F172A]/80 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          {/* Language Toggle */}
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <span className="text-xl font-bold text-white tracking-wide">Peace Protocol</span>
+        </div>
+        
+        <div className="flex items-center gap-4">
           <button
             onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
-            className="h-10 px-3 rounded-xl flex items-center justify-center text-xs font-medium text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 transition-all"
+            className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-2"
           >
-            <Globe size={14} className="mr-2 opacity-70" />
-            {language === 'en' ? 'EN' : '中'}
+            {language === 'en' ? '中文' : 'EN'}
           </button>
-
-          {/* Premium Wallet Connect */}
+          
           <button
             onClick={connectWallet}
             disabled={isConnecting}
-            className="h-10 px-5 rounded-xl flex items-center gap-2 text-sm font-medium transition-all duration-300 relative overflow-hidden group"
-            style={{
-              background: walletAddress ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.05) 100%)',
-              border: '1px solid rgba(212,175,55,0.2)'
-            }}
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-slate-700"
           >
-            <div className="absolute inset-0 bg-premium-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <Wallet size={16} className={walletAddress ? "text-premium-gold" : "text-premium-gold/80"} />
-            <span className="text-white/90 relative z-10">
-              {isConnecting ? t.connecting : walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}` : t.connectWallet}
-            </span>
+            <Wallet size={16} className={walletAddress ? "text-indigo-400" : "text-slate-400"} />
+            {isConnecting ? t.connecting : walletAddress ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}` : t.connectWallet}
           </button>
         </div>
-      </nav>
+      </header>
 
-      <main className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center mt-24 mb-16 space-y-12">
+      {/* Main Content */}
+      <main className="relative z-10 container mx-auto px-4 pt-12 pb-24 flex flex-col items-center">
         
-        {/* Hero Section */}
-        <div className="text-center space-y-6 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_#4ade80]" />
-            <span className="text-xs font-medium text-white/70 tracking-wide">Mainnet Active</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white">
-            Claim Your <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-gold via-[#FFF2CD] to-premium-gold bg-[length:200%_auto] animate-[gradient_8s_linear_infinite]">
-              Peace Protocol
-            </span>
-            <br/> Airdrop
+        {/* Title Section */}
+        <div className="text-center mb-10 max-w-2xl">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+            Claim Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Airdrop</span>
           </h1>
-          
-          <p className="text-base md:text-lg text-white/50 font-light max-w-xl mx-auto leading-relaxed">
-            {t.subtitle} Interact with the contract to verify your address and secure your allocation.
+          <p className="text-slate-400 text-lg">
+            Interact with the contract to verify your address, accumulate PEACE tokens, and secure your allocation.
           </p>
+        </div>
 
+        {/* Central Card (Uniswap/PancakeSwap style) */}
+        <div className="w-full max-w-md bg-[#1E293B] border border-slate-800 rounded-3xl p-6 shadow-2xl">
+          
+          {/* Balance Display */}
+          <div className="bg-[#0F172A] rounded-2xl p-5 mb-6 border border-slate-800/50">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-slate-400">Your Balance</span>
+              <span className="text-xs px-2 py-1 rounded-md bg-indigo-500/10 text-indigo-400 font-medium">BSC Mainnet</span>
+            </div>
+            <div className="flex items-end gap-2">
+              <span className="text-4xl font-bold text-white"><CountUp value={balance} /></span>
+              <span className="text-lg text-slate-300 font-medium mb-1">PEACE</span>
+            </div>
+          </div>
+
+          {/* Referrer Info */}
           {referrer !== "0x0000000000000000000000000000000000000000" && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-premium-gold/5 border border-premium-gold/10">
-              <span className="text-xs text-white/40">{t.referredBy}</span>
-              <span className="text-xs font-mono text-premium-gold">{referrer.substring(0, 6)}...{referrer.substring(38)}</span>
+            <div className="flex justify-between items-center bg-slate-800/50 rounded-xl p-3 mb-6 border border-slate-700/50">
+              <span className="text-sm text-slate-400">Invited by</span>
+              <span className="text-sm font-mono text-indigo-300">{referrer.substring(0, 6)}...{referrer.substring(38)}</span>
             </div>
           )}
-        </div>
 
-        {/* Central Interaction Card (Premium UI) */}
-        <div className="w-full max-w-md relative">
-          {/* Glowing border effect behind the card */}
-          <div className="absolute -inset-0.5 bg-gradient-to-b from-premium-gold/30 to-transparent rounded-[2rem] blur-sm opacity-50" />
-          
-          <div className="relative bg-[#111] border border-white/10 rounded-[2rem] p-8 shadow-2xl backdrop-blur-xl">
-            
-            {/* Balance Section */}
-            <div className="flex flex-col items-center mb-8 pb-8 border-b border-white/5">
-              <span className="text-sm font-medium text-white/40 mb-2 uppercase tracking-widest">{t.totalAssets}</span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-bold text-white tracking-tight"><CountUp value={balance} /></span>
-                <span className="text-lg text-premium-gold font-medium">PEACE</span>
-              </div>
+          {/* Action Button */}
+          <button
+            onClick={handleSync}
+            disabled={isSyncing || cooldownRemaining > 0 || !walletAddress}
+            className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-200 flex items-center justify-center gap-2 ${
+              !walletAddress 
+                ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                : cooldownRemaining > 0
+                  ? 'bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700'
+                  : isSyncing
+                    ? 'bg-indigo-600/80 text-white cursor-wait'
+                    : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25'
+            }`}
+          >
+            {!walletAddress ? (
+              "Connect Wallet to Claim"
+            ) : isSyncing ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </>
+            ) : cooldownRemaining > 0 ? (
+              `Next claim in: ${Math.floor(cooldownRemaining / 3600).toString().padStart(2, '0')}:${Math.floor((cooldownRemaining % 3600) / 60).toString().padStart(2, '0')}:${(cooldownRemaining % 60).toString().padStart(2, '0')}`
+            ) : (
+              "Interact & Claim"
+            )}
+          </button>
+
+          {/* Status Message */}
+          {txStatus && (
+            <div className={`mt-4 p-3 rounded-xl text-center text-sm font-medium ${
+              txStatus.includes("Failed") || txStatus.includes("失败") || txStatus.includes("Rejected") || txStatus.includes("拒绝")
+                ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                : "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"
+            }`}>
+              {txStatus}
             </div>
+          )}
 
-            {/* Sync Action Area */}
-            <div className="flex flex-col items-center gap-6">
-              <div className="relative">
-                <SyncButton 
-                  onSync={handleSync} 
-                  isSyncing={isSyncing} 
-                  cooldownRemaining={cooldownRemaining} 
-                />
-              </div>
-
-              {/* Status Message */}
-              <div className="h-6 flex items-center justify-center">
-                {txStatus && (
-                  <span className={`text-xs font-medium px-3 py-1 rounded-lg ${
-                    txStatus.includes("Failed") || txStatus.includes("失败") || txStatus.includes("Rejected") || txStatus.includes("拒绝")
-                      ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                      : "bg-premium-gold/10 text-premium-gold border border-premium-gold/20"
-                  }`}>
-                    {txStatus}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Referral Link */}
-            <div className="mt-8 pt-6 border-t border-white/5">
-              <div className="flex items-center justify-between bg-black/40 rounded-xl p-1 pl-4 border border-white/5">
-                <span className="text-xs text-white/40 font-mono truncate mr-4">
-                  {walletAddress ? `...?ref=${walletAddress.substring(0,6)}...` : t.referralLink}
+          {/* Referral Link Area */}
+          <div className="mt-8 pt-6 border-t border-slate-800">
+            <p className="text-sm font-medium text-slate-400 mb-3">Your Referral Link</p>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-[#0F172A] border border-slate-700 rounded-xl px-3 py-2.5 overflow-hidden">
+                <span className="text-sm text-slate-300 font-mono truncate block w-full">
+                  {walletAddress ? `...?ref=${walletAddress.substring(0,8)}...` : "Connect wallet to get link"}
                 </span>
-                <button 
-                  onClick={copyReferralLink}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-white/70 hover:text-white"
-                >
-                  {isCopied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-                </button>
               </div>
+              <button 
+                onClick={copyReferralLink}
+                disabled={!walletAddress}
+                className="bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed text-white p-2.5 rounded-xl transition-colors"
+              >
+                {isCopied ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
+              </button>
             </div>
-
           </div>
         </div>
 
-        {/* Dashboard Grid - Two columns on desktop */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <div className="bg-[#111]/80 border border-white/5 rounded-2xl p-6 backdrop-blur-md">
-            <QuotaDashboard totalSlots={20} activeSlots={14} />
+        {/* Info Grid (Stats) */}
+        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+          {/* We will replace these with simpler standard UI components in the next step */}
+          <div className="bg-[#1E293B] border border-slate-800 rounded-3xl p-6">
+             <QuotaDashboard totalSlots={20} activeSlots={14} />
           </div>
-          <div className="bg-[#111]/80 border border-white/5 rounded-2xl p-6 backdrop-blur-md">
-            <Leaderboard levels={levels} onClaim={handleClaim} />
+          <div className="bg-[#1E293B] border border-slate-800 rounded-3xl p-6">
+             <Leaderboard levels={levels} onClaim={handleClaim} />
           </div>
         </div>
 
       </main>
-
-      {/* Footer */}
-      <footer className="relative z-10 text-center pb-6 opacity-40 hover:opacity-100 transition-opacity">
-        <p className="text-xs font-medium text-white tracking-widest uppercase">
-          {t.footer}
-        </p>
-      </footer>
     </div>
   );
 }
